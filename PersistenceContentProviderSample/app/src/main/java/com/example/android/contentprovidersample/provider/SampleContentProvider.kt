@@ -43,12 +43,40 @@ import java.util.ArrayList
  */
 class SampleContentProvider : ContentProvider() {
 
+    companion object {
+
+        /** The authority of this content provider.  */
+        val AUTHORITY = "com.example.android.contentprovidersample.provider"
+
+        /** The URI for the Cheese table.  */
+        val URI_CHEESE = Uri.parse("content://" + AUTHORITY + "/" + Cheese.TABLE_NAME)
+
+        /** The match code for some items in the Cheese table.  */
+        private val CODE_CHEESE_DIR = 1
+
+        /** The match code for an item in the Cheese table.  */
+        private val CODE_CHEESE_ITEM = 2
+
+        /** The URI matcher.  */
+        private val MATCHER = UriMatcher(UriMatcher.NO_MATCH)
+
+        init {
+            MATCHER.addURI(AUTHORITY, Cheese.TABLE_NAME, CODE_CHEESE_DIR)
+            MATCHER.addURI(AUTHORITY, Cheese.TABLE_NAME + "/*", CODE_CHEESE_ITEM)
+        }
+    }
+
     override fun onCreate(): Boolean {
         return true
     }
 
-    override fun query(uri: Uri, projection: Array<String>?, selection: String?,
-                       selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
+    override fun query(
+            uri: Uri,
+            projection: Array<String>?,
+            selection: String?,
+            selectionArgs: Array<String>?,
+            sortOrder: String?
+    ): Cursor? {
         val code = MATCHER.match(uri)
         if (code == CODE_CHEESE_DIR || code == CODE_CHEESE_ITEM) {
             val context = context ?: return null
@@ -151,27 +179,6 @@ class SampleContentProvider : ContentProvider() {
         }
     }
 
-    companion object {
 
-        /** The authority of this content provider.  */
-        val AUTHORITY = "com.example.android.contentprovidersample.provider"
-
-        /** The URI for the Cheese table.  */
-        val URI_CHEESE = Uri.parse("content://" + AUTHORITY + "/" + Cheese.TABLE_NAME)
-
-        /** The match code for some items in the Cheese table.  */
-        private val CODE_CHEESE_DIR = 1
-
-        /** The match code for an item in the Cheese table.  */
-        private val CODE_CHEESE_ITEM = 2
-
-        /** The URI matcher.  */
-        private val MATCHER = UriMatcher(UriMatcher.NO_MATCH)
-
-        init {
-            MATCHER.addURI(AUTHORITY, Cheese.TABLE_NAME, CODE_CHEESE_DIR)
-            MATCHER.addURI(AUTHORITY, Cheese.TABLE_NAME + "/*", CODE_CHEESE_ITEM)
-        }
-    }
 
 }
