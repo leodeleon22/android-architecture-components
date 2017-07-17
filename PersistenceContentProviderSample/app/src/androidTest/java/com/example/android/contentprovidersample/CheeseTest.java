@@ -56,7 +56,7 @@ public class CheeseTest {
     public void insertAndCount() {
         assertThat(mDatabase.cheese().count(), is(0));
         Cheese cheese = new Cheese();
-        cheese.name = "abc";
+        cheese.setName("abc");
         mDatabase.cheese().insert(cheese);
         assertThat(mDatabase.cheese().count(), is(1));
     }

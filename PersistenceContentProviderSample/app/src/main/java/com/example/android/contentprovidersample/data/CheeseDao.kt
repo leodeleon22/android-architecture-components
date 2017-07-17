@@ -14,80 +14,85 @@
  * limitations under the License.
  */
 
-package com.example.android.contentprovidersample.data;
+package com.example.android.contentprovidersample.data
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
-import android.database.Cursor;
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Insert
+import android.arch.persistence.room.Query
+import android.arch.persistence.room.Update
+import android.database.Cursor
 
 
 /**
  * Data access object for Cheese.
  */
 @Dao
-public interface CheeseDao {
+interface CheeseDao {
 
     /**
      * Counts the number of cheeses in the table.
-     *
+
      * @return The number of cheeses.
      */
     @Query("SELECT COUNT(*) FROM " + Cheese.TABLE_NAME)
-    int count();
+    fun count(): Int
 
     /**
      * Inserts a cheese into the table.
-     *
+
      * @param cheese A new cheese.
+     * *
      * @return The row ID of the newly inserted cheese.
      */
     @Insert
-    long insert(Cheese cheese);
+    fun insert(cheese: Cheese): Long
 
     /**
      * Inserts multiple cheeses into the database
-     *
+
      * @param cheeses An array of new cheeses.
+     * *
      * @return The row IDs of the newly inserted cheeses.
      */
     @Insert
-    long[] insertAll(Cheese[] cheeses);
+    fun insertAll(cheeses: Array<Cheese?>): LongArray
 
     /**
      * Select all cheeses.
-     *
-     * @return A {@link Cursor} of all the cheeses in the table.
+
+     * @return A [Cursor] of all the cheeses in the table.
      */
     @Query("SELECT * FROM " + Cheese.TABLE_NAME)
-    Cursor selectAll();
+    fun selectAll(): Cursor
 
     /**
      * Select a cheese by the ID.
-     *
+
      * @param id The row ID.
-     * @return A {@link Cursor} of the selected cheese.
+     * *
+     * @return A [Cursor] of the selected cheese.
      */
-    @Query("SELECT * FROM " + Cheese.TABLE_NAME + " WHERE " + Cheese.COLUMN_ID + " = :id")
-    Cursor selectById(long id);
+    @Query("SELECT * FROM " + Cheese.TABLE_NAME + " WHERE " + Cheese.COLUMN_ID + " = :arg0")
+    fun selectById(id: Long): Cursor
 
     /**
      * Delete a cheese by the ID.
-     *
+
      * @param id The row ID.
-     * @return A number of cheeses deleted. This should always be {@code 1}.
+     * *
+     * @return A number of cheeses deleted. This should always be `1`.
      */
-    @Query("DELETE FROM " + Cheese.TABLE_NAME + " WHERE " + Cheese.COLUMN_ID + " = :id")
-    int deleteById(long id);
+    @Query("DELETE FROM " + Cheese.TABLE_NAME + " WHERE " + Cheese.COLUMN_ID + " = :arg0")
+    fun deleteById(id: Long): Int
 
     /**
      * Update the cheese. The cheese is identified by the row ID.
-     *
+
      * @param cheese The cheese to update.
-     * @return A number of cheeses updated. This should always be {@code 1}.
+     * *
+     * @return A number of cheeses updated. This should always be `1`.
      */
     @Update
-    int update(Cheese cheese);
+    fun update(cheese: Cheese): Int
 
 }
